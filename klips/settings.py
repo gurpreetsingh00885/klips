@@ -22,7 +22,7 @@ class Common(Configuration):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = values.BooleanValue(False)
 
-    ALLOWED_HOSTS = values.ListValue([])
+    ALLOWED_HOSTS = values.ListValue(['*'])
 
     # Application definition
     INSTALLED_APPS = [
@@ -78,17 +78,12 @@ class Common(Configuration):
     )
     ASGI_APPLICATION = "klips.routing.application"
     WSGI_APPLICATION = 'klips.wsgi.application'
-    
-    x = []
-    if os.getenv('REDIS_URL', 'url') != 'url':
-        x = [os.getenv('REDIS_URL', 'url')]
-    
 
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
             'CONFIG': {
-                "hosts": x + [('127.0.0.1', 6379)],
+                "hosts": [os.getenv('REDIS_URL', 'localhost:6379')],
             },
         },
     }

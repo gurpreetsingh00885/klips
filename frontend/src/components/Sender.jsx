@@ -25,7 +25,7 @@ class Sender extends Component {
       var boardId = document.getElementById('board_id').value;
       var loc = window.location;
       var wsStart = 'ws://';
-      if (loc.protocol == 'https://')
+      if (loc.protocol == 'https:')
         wsStart = 'wss://';
       var endpoint = wsStart + loc.host + '/ws/board/' + boardId + '/';
 

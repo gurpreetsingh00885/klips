@@ -26,7 +26,7 @@ class Board extends Component {
       this.setState({'code' : res.data.id});
       var loc = window.location;
         var wsStart = 'ws://';
-        if (loc.protocol == 'https://')
+        if (loc.protocol == 'https:')
           wsStart = 'wss://';
         var endpoint = wsStart + loc.host + '/ws/board/' + res.data.id + '/';
       this.ws = new WebSocket(endpoint);
@@ -50,7 +50,7 @@ class Board extends Component {
         // automatically try to reconnect on connection loss
         var loc = window.location;
         var wsStart = 'ws://';
-        if (loc.protocol == 'https://')
+        if (loc.protocol == 'https:')
           wsStart = 'wss://';
         var endpoint = wsStart + loc.host + '/ws/board/' + res.data.id + '/';
         this.setState({
@@ -105,7 +105,7 @@ class Board extends Component {
 
         <div className="floating">
           <center>
-            <div className="floating-label"> <b>Board ID</b> </div>
+            <div className="floating-label"> <b>Board Id</b> </div>
             <div className="floating-value"> {this.state.code == '' ? <img src="https://i.imgur.com/MQkFKEt.gif" alt="oops!"/> : this.state.code} </div>
           </center>
         </div>
