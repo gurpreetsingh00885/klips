@@ -24,7 +24,12 @@ class Board extends Component {
     axios.get('/api/id/issue')
     .then((res) => {
       this.setState({'code' : res.data.id});
-      this.ws = new WebSocket('ws://localhost:3000/ws/board/'+ res.data.id +'/');
+      var loc = window.location;
+        var wsStart = 'ws://';
+        if (loc.protocol == 'https://')
+          wsStart = 'wss://';
+        var endpoint = wsStart + loc.host + '/ws/board/' + res.data.id + '/';
+      this.ws = new WebSocket(endpoint);
 
       this.ws.onopen = () => {
         // on connecting, do nothing but log it to the console
@@ -43,8 +48,13 @@ class Board extends Component {
       this.ws.onclose = () => {
         console.log('disconnected')
         // automatically try to reconnect on connection loss
+        var loc = window.location;
+        var wsStart = 'ws://';
+        if (loc.protocol == 'https://')
+          wsStart = 'wss://';
+        var endpoint = wsStart + loc.host + '/ws/board/' + res.data.id + '/';
         this.setState({
-          ws: new WebSocket('ws://localhost:8000/ws/board/12345/'),
+          ws: new WebSocket(endpoint),
         })
       }
     })
