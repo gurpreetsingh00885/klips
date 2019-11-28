@@ -61,7 +61,7 @@ class Common(Configuration):
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [os.path.join(BASE_DIR, "templates"),],
+            'DIRS': [os.path.join(BASE_DIR, "frontend"),],
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [
@@ -73,14 +73,22 @@ class Common(Configuration):
             },
         },
     ]
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'frontend', "build", "static"),
+    )
     ASGI_APPLICATION = "klips.routing.application"
-    #WSGI_APPLICATION = 'klips.wsgi.application'
+    WSGI_APPLICATION = 'klips.wsgi.application'
     
+    x = []
+    if os.getenv('REDIS_URL', 'url') != 'url':
+        x = [os.getenv('REDIS_URL', 'url')]
+    
+
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
             'CONFIG': {
-                "hosts": [('127.0.0.1', 6379)],
+                "hosts": x + [('127.0.0.1', 6379)],
             },
         },
     }

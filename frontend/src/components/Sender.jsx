@@ -23,9 +23,13 @@ class Sender extends Component {
 
     const connectWebSocket = (e) => {
       var boardId = document.getElementById('board_id').value;
-      
+      var loc = window.location;
+      var wsStart = 'ws://';
+      if (loc.protocol == 'https://')
+        wsStart = 'wss://';
+      var endpoint = wsStart + loc.host + '/ws/board/' + boardId + '/';
 
-      this.ws = new WebSocket('ws://localhost:8000/ws/board/'+ boardId +'/');
+      this.ws = new WebSocket(endpoint);
 
       this.ws.onopen = () => {
         // on connecting, do nothing but log it to the console
